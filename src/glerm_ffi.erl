@@ -5,6 +5,8 @@
          enable_mouse_capture/0, disable_mouse_capture/0, cursor_position/0, clear_current_line/0,
          move_cursor_right/1, move_cursor_left/1, move_to_column/1]).
 
+-export([convert_event/1]).
+
 -nifs([{listen, 1},
        {print, 1},
        {size, 0},
@@ -90,3 +92,11 @@ move_cursor_right(_Count) ->
 
 move_to_column(_Column) ->
   exit(nif_library_not_loaded).
+
+%%% convert / decode term events to the Gleam type
+
+convert_event({mouse, Scroll, none}) ->
+    {mouse, Scroll};
+
+convert_event(Event) ->
+    Event.
