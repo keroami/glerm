@@ -149,6 +149,12 @@ pub fn cursor_position() -> Result(#(Int, Int), Nil)
 @external(erlang, "glerm_ffi", "clear_current_line")
 pub fn clear_current_line() -> Result(Nil, Nil)
 
+@external(erlang, "glerm_ffi", "hide_cursor")
+pub fn hide_cursor() -> Result(Nil, Nil)
+
+@external(erlang, "glerm_ffi", "show_cursor")
+pub fn show_cursor() -> Result(Nil, Nil)
+
 @external(erlang, "glerm_ffi", "move_cursor_left")
 pub fn move_cursor_left(count: Int) -> Result(Nil, Nil)
 

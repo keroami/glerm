@@ -1,7 +1,7 @@
 use std::io::{stdout, Write};
 use std::sync::mpsc::channel;
 
-use crossterm::cursor::{self, MoveLeft, MoveRight, MoveTo, MoveToColumn};
+use crossterm::cursor::{self, Hide, Show, MoveLeft, MoveRight, MoveTo, MoveToColumn};
 use crossterm::event::{
     self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyModifiers, MouseButton,
     MouseEventKind,
@@ -345,6 +345,16 @@ fn cursor_position() -> Result<(u16, u16), ()> {
 }
 
 #[rustler::nif]
+fn hide_cursor() -> Result<(), ()> {
+    execute!(stdout(), Hide).map_err(|_| ())
+}
+
+#[rustler::nif]
+fn show_cursor() -> Result<(), ()> {
+    execute!(stdout(), Show).map_err(|_| ())
+}
+
+#[rustler::nif]
 fn move_cursor_left(count: u16) -> Result<(), ()> {
     execute!(stdout(), MoveLeft(count)).map_err(|_| ())
 }
@@ -381,6 +391,8 @@ rustler::init!(
         enable_mouse_capture,
         disable_mouse_capture,
         cursor_position,
+        hide_cursor,
+        show_cursor,
         move_cursor_left,
         move_cursor_right,
         move_to_column,
