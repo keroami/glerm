@@ -221,15 +221,19 @@ pub fn start_listener_spec(
 pub fn start_listener(
   initial_state: state,
   loop: fn(state, Event) -> actor.Next(state, Event),
-) -> actor.StartResult(EventSubject) {
-  actor.new_with_initialiser(500, fn(subj) {
-    let pid = process.self()
-    process.spawn(fn() { listen(pid) })
+) -> actor.StartResult(Nil) {
+  actor.new_with_initialiser(500, fn(_) {
+    do_listen()
     actor.initialised(initial_state)
     |> actor.selecting(selector())
-    |> actor.returning(subj)
     |> Ok
   })
   |> actor.on_message(loop)
   |> actor.start
+}
+
+pub fn do_listen() {
+  let pid = process.self()
+  process.spawn(fn() { listen(pid) })
+  selector()
 }
