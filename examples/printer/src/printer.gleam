@@ -9,10 +9,6 @@ pub fn main() {
   // Create a subject to use as an "exit" signal
   let subject = process.new_subject()
 
-  let selector =
-    process.new_selector()
-    |> process.select(subject)
-
   // Create a new screen for our application
   let assert Ok(_) = glerm.enter_alternate_screen()
   // Enable raw mode to allow capturing all input, and free-form
@@ -53,7 +49,7 @@ pub fn main() {
     })
 
   // Block until we receive the exit signal from the listener
-  process.selector_receive_forever(selector)
+  process.receive_forever(subject)
 
   // Return the user to their previous terminal screen and exit
   glerm.leave_alternate_screen()
