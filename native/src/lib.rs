@@ -36,14 +36,20 @@ mod atoms {
         // Key event properties
         // Special keys
         enter,
+        escape,
         left,
         right,
         down,
         up,
         backspace,
+        tab,
+        back_tab,
 
         // Regular key
         character,
+
+        // Function key
+        function,
 
         // Mouse event properties
         // Event types
@@ -111,12 +117,19 @@ impl Encoder for TermKeyEvent {
                 env,
                 &[atoms::character().to_term(env), String::from(c).encode(env)],
             ),
+            KeyCode::F(i) => tuple::make_tuple(
+                env,
+                &[atoms::function().to_term(env), i.encode(env)],
+            ),
             KeyCode::Enter => atoms::enter().to_term(env),
+            KeyCode::Esc => atoms::escape().to_term(env),
             KeyCode::Backspace => atoms::backspace().to_term(env),
             KeyCode::Left => atoms::left().to_term(env),
             KeyCode::Right => atoms::right().to_term(env),
             KeyCode::Down => atoms::down().to_term(env),
             KeyCode::Up => atoms::up().to_term(env),
+            KeyCode::Tab => atoms::tab().to_term(env),
+            KeyCode::BackTab => atoms::back_tab().to_term(env),
             _ => atoms::unsupported().to_term(env),
         };
         make_tuple(env, &[atoms::key().to_term(env), character, modifier])

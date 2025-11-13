@@ -18,12 +18,16 @@ pub type Modifier {
 /// that I'm just not handling yet.
 pub type KeyCode {
   Character(String)
+  Function(Int)
   Enter
+  Escape
   Backspace
   Left
   Right
   Down
   Up
+  Tab
+  BackTab
   Unsupported
 }
 
