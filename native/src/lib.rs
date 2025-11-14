@@ -196,7 +196,7 @@ impl Encoder for TermMouseEvent {
                     env,
                     &[
                         event_type,
-                        make_tuple(env, &[atoms::mouse_down().to_term(env), button, modifier]),
+                        make_tuple(env, &[atoms::mouse_up().to_term(env), button, modifier]),
                     ],
                 )
             }
