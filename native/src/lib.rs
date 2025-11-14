@@ -179,6 +179,8 @@ impl Encoder for TermMouseEvent {
             modifier: self.event.modifiers,
         }
         .encode(env);
+        let col = self.event.column.encode(env);
+        let row = self.event.row.encode(env);
         match self.event.kind {
             MouseEventKind::Down(button) => {
                 let button = TermMouseButton { button }.encode(env);
@@ -186,7 +188,7 @@ impl Encoder for TermMouseEvent {
                     env,
                     &[
                         event_type,
-                        make_tuple(env, &[atoms::mouse_down().to_term(env), button, modifier]),
+                        make_tuple(env, &[atoms::mouse_down().to_term(env), button, col, row, modifier]),
                     ],
                 )
             }
@@ -206,11 +208,13 @@ impl Encoder for TermMouseEvent {
                     env,
                     &[
                         event_type,
-                        make_tuple(env, &[atoms::drag().to_term(env), button, modifier]),
+                        make_tuple(env, &[atoms::drag().to_term(env), button, row, col, modifier]),
                     ],
                 )
             }
-            MouseEventKind::Moved => make_tuple(env, &[event_type, atoms::moved().to_term(env)]),
+            MouseEventKind::Moved => make_tuple(env, &[event_type,
+                        make_tuple(env, &[atoms::moved().to_term(env), col, row]),
+                    ]),
             MouseEventKind::ScrollDown => make_tuple(
                 env,
                 &[event_type, atoms::scroll_down().to_term(env), modifier],

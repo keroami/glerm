@@ -42,10 +42,10 @@ pub type MouseButton {
 /// The possible types of mouse events. I think most of these will also
 /// have the mouse cursor position attached. That is not supported at the moment.
 pub type MouseEvent {
-  MouseDown(button: MouseButton, modifier: Option(Modifier))
+  MouseDown(button: MouseButton, col: Int, row: Int, modifier: Option(Modifier))
   MouseUp(button: MouseButton, modifier: Option(Modifier))
-  Drag(button: MouseButton, modifier: Option(Modifier))
-  Moved
+  Drag(button: MouseButton, col: Int, row: Int, modifier: Option(Modifier))
+  Moved(col: Int, row: Int)
   ScrollDown
   ScrollUp
 }
